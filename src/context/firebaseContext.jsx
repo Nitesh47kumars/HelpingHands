@@ -15,13 +15,13 @@ import {
 } from "firebase/firestore";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyDeJAbP5P_k0n7Q-IUlojqStnYJwErcxk0",
-  authDomain: "helpinghands-ad3d8.firebaseapp.com",
-  databaseURL: "https://helpinghands-ad3d8-default-rtdb.firebaseio.com",
-  projectId: "helpinghands-ad3d8",
-  storageBucket: "helpinghands-ad3d8.firebasestorage.app",
-  messagingSenderId: "311489203311",
-  appId: "1:311489203311:web:b532f5f233cfa38421119a",
+  apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
+  authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
+  databaseURL: import.meta.env.VITE_FIREBASE_DATABASE_URL,
+  projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID,
+  storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID,
+  appId: import.meta.env.VITE_FIREBASE_APP_ID,
 };
 
 const app = initializeApp(firebaseConfig);
