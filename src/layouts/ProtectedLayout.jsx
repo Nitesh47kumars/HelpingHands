@@ -4,8 +4,17 @@ import { useFirebase } from "../context/firebaseContext";
 const ProtectedLayout = () => {
   const { user, loading } = useFirebase();
 
-  if (loading) return null;
-  if (!user) return <Navigate to="/login" replace />;
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center h-screen">
+        Loading...
+      </div>
+    );
+  }
+
+  if (!user) {
+    return <Navigate to="/login" replace />;
+  }
 
   return <Outlet />;
 };

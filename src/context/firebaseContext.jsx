@@ -9,15 +9,23 @@ import {
 } from "firebase/auth";
 import {
   getFirestore,
+  doc,
+  setDoc,
   collection,
   addDoc,
   serverTimestamp,
 } from "firebase/firestore";
+import {
+  getDatabase,
+  ref,
+  set,
+  serverTimestamp as rtdbServerTimestamp,
+} from "firebase/database";
+
 
 const firebaseConfig = {
   apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
   authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
-  databaseURL: import.meta.env.VITE_FIREBASE_DATABASE_URL,
   projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID,
   storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET,
   messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID,
@@ -26,7 +34,8 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
-const db = getFirestore(app);
+const database = getDatabase(app);
+
 
 const FirebaseContext = createContext(null);
 
@@ -39,27 +48,33 @@ export const FirebaseProvider = ({ children }) => {
       setUser(currentUser);
       setLoading(false);
     });
-    return () => unsubscribe();
+
+    return unsubscribe;
   }, []);
 
-  const signUp = (email, password) =>
-    createUserWithEmailAndPassword(auth, email, password);
+  const signUp = async (email, password) => {
+    const userCredential = await createUserWithEmailAndPassword(
+      auth,
+      email,
+      password
+    );
+
+    const user = userCredential.user;
+    
+    await set(ref(database, `users/${user.uid}`), {
+      uid: user.uid,
+      email: user.email,
+      role: "user",
+      createdAt: Date.now(), // RTDB doesn't support Firestore timestamps
+    });
+
+    return userCredential;
+  };
 
   const signIn = (email, password) =>
     signInWithEmailAndPassword(auth, email, password);
 
   const logout = () => signOut(auth);
-
-  const createHelpRequest = async ({ title, description }) => {
-    if (!user) return;
-    return addDoc(collection(db, "helpRequests"), {
-      title,
-      description,
-      userId: user.uid,
-      status: "open",
-      createdAt: serverTimestamp(),
-    });
-  };
 
   return (
     <FirebaseContext.Provider
@@ -69,12 +84,12 @@ export const FirebaseProvider = ({ children }) => {
         signUp,
         signIn,
         logout,
-        createHelpRequest,
       }}
     >
-      {!loading && children}
+      {children}
     </FirebaseContext.Provider>
   );
 };
+
 
 export const useFirebase = () => useContext(FirebaseContext);
