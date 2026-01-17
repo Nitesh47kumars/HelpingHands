@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import { useFirebase } from "../context/firebaseContext";
 import { getDatabase, ref, push, onValue, serverTimestamp } from "firebase/database";
 import { MdSend } from "react-icons/md";
-import { FaUserCircle } from "react-icons/fa";
+import { FaUserCircle , FaUserFriends} from "react-icons/fa";
 
 const db = getDatabase();
 

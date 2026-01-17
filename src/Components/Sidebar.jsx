@@ -10,7 +10,7 @@ const Sidebar = () => {
 
   const menuItems = [
     { id: 'dashboard', label: 'Dashboard', path: '/dashboard', icon: <MdDashboard size={24} /> },
-    { id: 'general', label: 'General Chat', path: '/general', icon: <MdChat size={24} /> },
+    { id: 'helpfeed', label: 'Help Feed', path: '/helpfeed', icon: <MdChat size={24} /> },
     { id: 'private', label: 'Private Chats', path: '/private', icon: <FaUserFriends size={24} /> },
     { id: 'settings', label: 'Settings', path: '/settings', icon: <MdSettings size={24} /> },
   ];
