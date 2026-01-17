@@ -8,20 +8,11 @@ import {
   onAuthStateChanged,
 } from "firebase/auth";
 import {
-  getFirestore,
-  doc,
-  setDoc,
-  collection,
-  addDoc,
-  serverTimestamp,
-} from "firebase/firestore";
-import {
   getDatabase,
   ref,
   set,
   serverTimestamp as rtdbServerTimestamp,
 } from "firebase/database";
-
 
 const firebaseConfig = {
   apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
@@ -35,7 +26,6 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const database = getDatabase(app);
-
 
 const FirebaseContext = createContext(null);
 
@@ -52,7 +42,7 @@ export const FirebaseProvider = ({ children }) => {
     return unsubscribe;
   }, []);
 
-  const signUp = async (email, password) => {
+  const signUp = async ({ email, password, fullName, address, dob, phone }) => {
     const userCredential = await createUserWithEmailAndPassword(
       auth,
       email,
@@ -60,12 +50,16 @@ export const FirebaseProvider = ({ children }) => {
     );
 
     const user = userCredential.user;
-    
+
     await set(ref(database, `users/${user.uid}`), {
       uid: user.uid,
       email: user.email,
+      fullName,
+      address,
+      dob,
+      phone,
       role: "user",
-      createdAt: Date.now(), // RTDB doesn't support Firestore timestamps
+      createdAt: Date.now(),
     });
 
     return userCredential;
@@ -90,6 +84,5 @@ export const FirebaseProvider = ({ children }) => {
     </FirebaseContext.Provider>
   );
 };
-
 
 export const useFirebase = () => useContext(FirebaseContext);
