@@ -6,6 +6,9 @@ import Landing from "./pages/Landing";
 import Register from "./pages/Register";
 import Login from "./pages/Login";
 import Dashboard from "./pages/Dashboard";
+import GeneralChat from "./pages/GeneralChat"
+import PrivateChat from "./pages/PrivateChat";
+
 const router = createBrowserRouter([
   {
     path: "/",
@@ -20,6 +23,8 @@ const router = createBrowserRouter([
         element: <ProtectedLayout />,
         children:[
           { path: "dashboard", element: <Dashboard /> },
+          { path: "general", element: <GeneralChat /> },
+          { path: "private", element: <PrivateChat /> },
         ]
       },
     ],
