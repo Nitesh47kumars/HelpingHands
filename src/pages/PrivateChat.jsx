@@ -72,7 +72,7 @@ const PrivateChat = () => {
   };
 
   return (
-    <div className="flex h-[calc(100vh-120px)] max-w-6xl mx-auto bg-white dark:bg-zinc-900 rounded-2xl shadow-xl border border-zinc-200 dark:border-zinc-800 overflow-hidden">
+    <div className="flex h-[85vh] mx-auto bg-white dark:bg-zinc-900 rounded-2xl shadow-xl border border-zinc-200 dark:border-zinc-800 overflow-hidden">
       
       {/* Users List Sidebar */}
       <div className="w-1/3 border-r border-zinc-200 dark:border-zinc-800 flex flex-col bg-zinc-50/50 dark:bg-zinc-900/50">
