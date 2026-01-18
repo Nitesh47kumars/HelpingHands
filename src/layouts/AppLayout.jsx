@@ -2,14 +2,14 @@ import { Outlet } from "react-router-dom";
 import Navbar from "../Components/Navbar";
 import Sidebar from "../Components/Sidebar";
 import { useFirebase } from "../context/firebaseContext";
-
+import Loading from "../Components/Loading"
 const AppLayout = () => {
   const { user, loading } = useFirebase(); 
   
   const isLoggedIn = !!user;
 
   if (loading) {
-    return <div className="h-screen w-screen flex items-center justify-center">Loading...</div>;
+    return <Loading/>
   }
 
   return (

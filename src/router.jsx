@@ -9,12 +9,13 @@ import Dashboard from "./pages/Dashboard/Dashboard";
 import PrivateChat from "./pages/PrivateChat";
 import {HelpFeed} from "./pages/HelpFeed/HelpFeed";
 import Settings from "./pages/Setting";
+import Error from "./Components/Error"
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: <AppLayout />,
-    errorElement:"",
+    errorElement: <Error/>,
     children: [
       { index: true, element: <Landing /> },
       { path: "register", element: <Register /> },

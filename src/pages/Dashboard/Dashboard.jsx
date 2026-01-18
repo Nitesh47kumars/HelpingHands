@@ -3,6 +3,7 @@ import { getDatabase, ref, onValue, remove, update } from "firebase/database";
 import { useFirebase } from "../../context/firebaseContext";
 import Header from "./Header";
 import RequestManager from "./RequestManager";
+import Loading from "../../Components/Loading";
 
 const db = getDatabase();
 
@@ -53,11 +54,7 @@ const Dashboard = () => {
   };
 
   if (authLoading || dataLoading) {
-    return (
-      <div className="p-8 text-zinc-400 animate-pulse bg-zinc-950 min-h-screen">
-        Loading Dashboard Data...
-      </div>
-    );
+    return <Loading/>
   }
 
   return (
