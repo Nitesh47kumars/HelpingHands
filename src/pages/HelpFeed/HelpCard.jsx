@@ -68,7 +68,7 @@ const HelpCard = ({ request }) => {
         </div>
 
         <button 
-          onClick={() => navigate("/private", { state: { recipient: { uid: request.userId, fullName: request.userName } } })}
+          onClick={() => navigate("/chats", { state: { recipient: { uid: request.userId, fullName: request.userName } } })}
           className="flex items-center gap-2 px-6 py-2.5 bg-blue-600 hover:bg-blue-500 text-white text-xs font-bold rounded-xl transition-all active:scale-95 shadow-lg shadow-blue-900/40"
         >
           <MdMessage size={14} />

@@ -6,7 +6,7 @@ import Landing from "./pages/Landing";
 import Register from "./pages/Register";
 import Login from "./pages/Login";
 import Dashboard from "./pages/Dashboard/Dashboard";
-import PrivateChat from "./pages/PrivateChat";
+import Chats from "./pages/Chats";
 import {HelpFeed} from "./pages/HelpFeed/HelpFeed";
 import Settings from "./pages/Setting";
 import Error from "./Components/Error"
@@ -26,7 +26,7 @@ const router = createBrowserRouter([
         children:[
           { path: "dashboard", element: <Dashboard /> },
           { path: "helpfeed", element: <HelpFeed /> },
-          { path: "private", element: <PrivateChat /> },
+          { path: "chats", element: <Chats /> },
           { path: "settings", element: <Settings /> },
         ]
       },
