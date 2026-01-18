@@ -50,6 +50,23 @@ const Dashboard = () => {
     }
   };
 
+  const handleAcceptHelper = async (id) => {
+    await update(ref(db, `helpRequests/${id}`), {
+      status: "in-progress",
+      acceptedAt: Date.now(),
+    });
+  };
+
+  const handleDeclineHelper = async (id) => {
+    if (window.confirm("Are you sure you want to decline this helper?")) {
+      await update(ref(db, `helpRequests/${id}`), {
+        helperId: null,
+        helperName: null,
+        status: "pending",
+      });
+    }
+  };
+
   const handleStatusUpdate = async (id, newStatus) => {
     const request = myRequests.find((req) => req.id === id);
 
@@ -59,14 +76,16 @@ const Dashboard = () => {
       const minPrice = parseInt(request.minPrice) || 0;
       const maxPrice = parseInt(request.maxPrice) || 0;
       const avgPrice = (minPrice + maxPrice) / 2;
-      
+
       const karmaPoints = Math.max(Math.floor(avgPrice / 10), 5);
-      
+
       const success = await awardKarma(request.helperId, karmaPoints);
-      
+
       if (success) {
         alert(
-          `✅ Request completed! Awarded ${karmaPoints} karma points to ${request.helperName || "helper"}!`
+          `✅ Request completed! Awarded ${karmaPoints} karma points to ${
+            request.helperName || "helper"
+          }!`
         );
       }
     }
@@ -84,6 +103,8 @@ const Dashboard = () => {
         requests={myRequests}
         onStatusUpdate={handleStatusUpdate}
         onDelete={handleDelete}
+        onAcceptHelper={handleAcceptHelper}
+        onDeclineHelper={handleDeclineHelper}
       />
     </div>
   );
