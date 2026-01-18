@@ -30,23 +30,22 @@ const Register = () => {
     }
   };
 
-  // Added autofill styling to ensure background remains dark
   const inputStyle =
-    "w-full bg-white/5 border border-white/10 rounded-lg px-3 py-3 text-sm text-white placeholder:text-gray-500 focus:outline-none focus:ring-1 focus:ring-blue-500 transition-all [color-scheme:dark] [&:-webkit-autofill]:[-webkit-box-shadow:0_0_0_50px_#121214_inset] [&:-webkit-autofill]:[text-fill-color:white]";
+    "w-full bg-white/5 border border-white/10 rounded-lg px-3 py-2.5 sm:py-3 text-sm text-white placeholder:text-gray-500 focus:outline-none focus:ring-1 focus:ring-blue-500 transition-all [color-scheme:dark] [&:-webkit-autofill]:[-webkit-box-shadow:0_0_0_50px_#121214_inset] [&:-webkit-autofill]:[text-fill-color:white]";
   const labelStyle = "block text-xs font-medium text-gray-400 mb-1 ml-1";
 
   return (
-    <div className="min-h-[90vh] flex items-center justify-center bg-[#0a0a0c] px-4 [color-scheme:dark]">
-      <div className="max-w-xl w-full bg-white/3 backdrop-blur-md p-6 rounded-2xl border border-white/10 shadow-xl">
-        <div className="text-center mb-8 mt-1">
-          <h2 className="text-2xl font-bold text-white">Join HelpingHands</h2>
+    <div className="min-h-[85vh] flex items-center justify-center bg-[#0a0a0c] px-4 py-8 scheme-dark">
+      <div className="max-w-xl w-full bg-white/3 backdrop-blur-md p-5 sm:p-6 rounded-2xl border border-white/10 shadow-xl">
+        <div className="text-center mb-6 sm:mb-8 mt-1">
+          <h2 className="text-xl sm:text-2xl font-bold text-white">Join HelpingHands</h2>
           <p className="text-gray-500 text-xs mt-1">
             Fill in your details to get started.
           </p>
         </div>
 
-        <form onSubmit={handleSubmit} className="space-y-6">
-          <div className="grid grid-cols-2 gap-3">
+        <form onSubmit={handleSubmit} className="space-y-4 sm:space-y-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             <div>
               <label className={labelStyle}>Full Name</label>
               <input
@@ -77,7 +76,7 @@ const Register = () => {
             />
           </div>
 
-          <div className="grid grid-cols-2 gap-3">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             <div>
               <label className={labelStyle}>Date of Birth</label>
               <input
@@ -118,7 +117,7 @@ const Register = () => {
           </button>
         </form>
 
-        <p className="mt-6 text-center text-xs text-gray-500">
+        <p className="mt-5 sm:mt-6 text-center text-xs text-gray-500">
           Already have an account?{" "}
           <Link to="/login" className="text-blue-400 hover:underline">
             Login

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { getDatabase, ref, onValue } from "firebase/database";
-import {UserOwnHelpCard} from "./UserOwnHelpCard"
-import {HelpCard} from "./HelpCard"
+import { UserOwnHelpCard } from "./UserOwnHelpCard"
+import { HelpCard } from "./HelpCard"
 
 const HelpFeed = () => {
   const [requests, setRequests] = useState([]);
@@ -20,13 +20,13 @@ const HelpFeed = () => {
   }, []);
 
   return (
-    <div className="mx-auto">
+    <div className="mx-auto px-4 sm:px-0">
       <UserOwnHelpCard />
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
         {requests.map(req => <HelpCard key={req.id} request={req} />)}
       </div>
     </div>
   );
 };
 
-export {HelpFeed}
+export { HelpFeed }

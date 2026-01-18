@@ -6,7 +6,7 @@ import Landing from "./pages/Landing";
 import Register from "./pages/Register";
 import Login from "./pages/Login";
 import Dashboard from "./pages/Dashboard/Dashboard";
-import Chats from "./pages/Chats";
+import Chats from "./pages/Chats/Chats";
 import {HelpFeed} from "./pages/HelpFeed/HelpFeed";
 import Settings from "./pages/Setting";
 import Error from "./Components/Error"
