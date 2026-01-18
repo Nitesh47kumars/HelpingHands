@@ -30,7 +30,6 @@ const Chats = () => {
   useEffect(() => {
     if (location.state?.recipient) {
       setSelectedUser(location.state.recipient);
-      // On mobile, hide sidebar when user is selected
       if (window.innerWidth < 768) {
         setShowSidebar(false);
       }
@@ -39,7 +38,6 @@ const Chats = () => {
 
   const handleSelectUser = (user) => {
     setSelectedUser(user);
-    // Hide sidebar on mobile when user is selected
     if (window.innerWidth < 768) {
       setShowSidebar(false);
     }
@@ -47,7 +45,6 @@ const Chats = () => {
 
   const handleBackToList = () => {
     setShowSidebar(true);
-    // Optionally clear selected user on mobile
     if (window.innerWidth < 768) {
       setSelectedUser(null);
     }
@@ -55,8 +52,9 @@ const Chats = () => {
 
   return (
     <div className="flex h-[calc(100vh-8rem)] md:h-[85vh] mx-auto bg-zinc-900 rounded-xl md:rounded-2xl shadow-xl border border-zinc-800 overflow-hidden">
-      {/* Sidebar - Hidden on mobile when chat is open */}
-      <div className={`${showSidebar ? 'flex' : 'hidden'} md:flex w-full md:w-1/3`}>
+      <div
+        className={`${showSidebar ? "flex" : "hidden"} md:flex w-full md:w-1/3`}
+      >
         <ChatSidebar
           users={users}
           selectedUser={selectedUser}
@@ -65,10 +63,13 @@ const Chats = () => {
         />
       </div>
 
-      {/* Chat Window - Hidden on mobile when sidebar is open */}
-      <div className={`${!showSidebar || selectedUser ? 'flex' : 'hidden'} md:flex flex-1`}>
-        <ChatWindow 
-          selectedUser={selectedUser} 
+      <div
+        className={`${
+          !showSidebar || selectedUser ? "flex" : "hidden"
+        } md:flex flex-1`}
+      >
+        <ChatWindow
+          selectedUser={selectedUser}
           currentUser={user}
           onBack={handleBackToList}
         />
