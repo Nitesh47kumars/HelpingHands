@@ -13,12 +13,12 @@ const AppLayout = () => {
   }
 
   return (
-    <div className="flex flex-col h-screen overflow-hidden bg-white dark:bg-zinc-950">
+    <div className="flex flex-col h-screen overflow-hidden bg-zinc-950">
       <Navbar />
 
       <div className="flex flex-1 overflow-hidden">
         {isLoggedIn && (
-          <div className="hidden md:block w-64 shrink-0 border-r border-gray-200 dark:border-zinc-800">
+          <div className="hidden md:block w-64 shrink-0 border-r border-zinc-800">
             <Sidebar />
           </div>
         )}

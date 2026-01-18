@@ -25,37 +25,101 @@ const Register = () => {
       navigate("/dashboard", { replace: true });
     } catch (err) {
       alert(err.message);
+    } finally {
+      setLoading(false);
     }
-
-    setLoading(false);
   };
 
-  return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50 px-4">
-      <div className="max-w-md w-full bg-white p-8 rounded-lg shadow-md">
-        <h2 className="text-2xl font-bold mb-6 text-center">
-          Create your account
-        </h2>
+  const inputStyle =
+    "w-full bg-white/5 border border-white/10 rounded-lg px-3 py-3 text-sm text-white placeholder:text-gray-500 focus:outline-none focus:ring-1 focus:ring-blue-500 transition-all";
+  const labelStyle = "block text-xs font-medium text-gray-400 mb-1 ml-1";
 
-        <form onSubmit={handleSubmit} className="space-y-4">
-          <input name="fullName" placeholder="Full Name" required className="input" />
-          <input name="address" placeholder="Address" required className="input" />
-          <input type="date" name="dob" required className="input" />
-          <input name="phone" placeholder="Phone Number" required className="input" />
-          <input type="email" name="email" placeholder="Email" required className="input" />
-          <input type="password" name="password" placeholder="Password" required className="input" />
+  return (
+    <div className="min-h-[90vh] flex items-center justify-center bg-[#0a0a0c] px-4">
+      <div className="max-w-xl w-full bg-white/3 backdrop-blur-md p-6 rounded-2xl border border-white/10 shadow-xl">
+        <div className="text-center mb-8 mt-1">
+          <h2 className="text-2xl font-bold text-white">Join HelpingHands</h2>
+          <p className="text-gray-500 text-xs mt-1">
+            Fill in your details to get started.
+          </p>
+        </div>
+
+        <form onSubmit={handleSubmit} className="space-y-6">
+          <div className="grid grid-cols-2 gap-3">
+            <div>
+              <label className={labelStyle}>Full Name</label>
+              <input
+                name="fullName"
+                placeholder="John Doe"
+                required
+                className={inputStyle}
+              />
+            </div>
+            <div>
+              <label className={labelStyle}>Phone</label>
+              <input
+                name="phone"
+                placeholder="+1 555..."
+                required
+                className={inputStyle}
+              />
+            </div>
+          </div>
+
+          <div>
+            <label className={labelStyle}>Address</label>
+            <input
+              name="address"
+              placeholder="123 Street, City"
+              required
+              className={inputStyle}
+            />
+          </div>
+
+          <div className="grid grid-cols-2 gap-3">
+            <div>
+              <label className={labelStyle}>Date of Birth</label>
+              <input
+                type="date"
+                name="dob"
+                required
+                className={`${inputStyle} scheme-dark`}
+              />
+            </div>
+            <div>
+              <label className={labelStyle}>Email</label>
+              <input
+                type="email"
+                name="email"
+                placeholder="name@email.com"
+                required
+                className={inputStyle}
+              />
+            </div>
+          </div>
+
+          <div>
+            <label className={labelStyle}>Password</label>
+            <input
+              type="password"
+              name="password"
+              placeholder="••••••••"
+              required
+              className={inputStyle}
+            />
+          </div>
 
           <button
             disabled={loading}
-            className="w-full py-2 bg-blue-600 text-white rounded disabled:opacity-50"
+            className="w-full py-2.5 bg-blue-600 hover:bg-blue-500 text-white text-sm font-semibold rounded-lg transition-all active:scale-[0.98] disabled:opacity-50 mt-2"
           >
-            {loading ? "Registering..." : "Register"}
+            {loading ? "Creating Account..." : "Register"}
           </button>
         </form>
 
-        <p className="mt-4 text-center text-sm">
+        <p className="mt-6 text-center text-xs text-gray-500">
           Already have an account?{" "}
-          <Link to="/login" className="text-blue-600">
+          <Link to="/login" className="text-blue-400 hover:underline">
             Login
           </Link>
         </p>

@@ -24,53 +24,59 @@ const Login = () => {
     }
   };
 
-  return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50 px-4">
-      <div className="max-w-md w-full bg-white p-8 rounded-lg shadow-md">
-        <h2 className="text-2xl font-bold mb-6 text-center text-gray-800">
-          Login to your account
-        </h2>
+  const inputStyle = "w-full bg-white/5 border border-white/10 rounded-lg px-3 py-3 text-sm text-white placeholder:text-gray-500 focus:outline-none focus:ring-1 focus:ring-blue-500 transition-all";
+  const labelStyle = "block text-xs font-medium text-gray-400 mb-1 ml-1";
 
-        <form onSubmit={handleSubmit} className="space-y-4">
+  return (
+    <div className="min-h-[90vh] flex items-center justify-center bg-[#0a0a0c] px-4">
+      <div className="max-w-md w-full bg-white/3 backdrop-blur-md p-8 rounded-2xl border border-white/10 shadow-xl">
+        <div className="text-center mb-8">
+          <h2 className="text-2xl font-bold text-white tracking-tight">Welcome Back</h2>
+          <p className="text-gray-500 text-xs mt-1.5">
+            Enter your credentials to access your account.
+          </p>
+        </div>
+
+        <form onSubmit={handleSubmit} className="space-y-5">
           <div>
-            <label htmlFor="email" className="block text-sm font-medium text-gray-700">
-              Email
-            </label>
+            <label className={labelStyle}>Email Address</label>
             <input
               type="email"
               name="email"
+              placeholder="name@email.com"
               required
-              placeholder="you@example.com"
-              className="mt-1 block w-full px-4 py-2 border rounded-md text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+              className={inputStyle}
             />
           </div>
 
           <div>
-            <label htmlFor="password" className="block text-sm font-medium text-gray-700">
-              Password
-            </label>
+            <div className="flex justify-between items-center mb-1 mr-1">
+              <label className={labelStyle}>Password</label>
+              <Link to="/forgot-password" size="sm" className="text-[10px] text-blue-400 hover:text-blue-300">
+                Forgot password?
+              </Link>
+            </div>
             <input
               type="password"
               name="password"
+              placeholder="••••••••"
               required
-              placeholder="********"
-              className="mt-1 block w-full px-4 py-2 border rounded-md text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+              className={inputStyle}
             />
           </div>
 
           <button
-            type="submit"
             disabled={loading}
-            className="w-full py-2 px-4 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition disabled:opacity-50"
+            className="w-full py-3 bg-blue-600 hover:bg-blue-500 text-white text-sm font-semibold rounded-lg transition-all active:scale-[0.98] disabled:opacity-50 mt-4 shadow-lg shadow-blue-900/20"
           >
-            {loading ? "Logging in..." : "Login"}
+            {loading ? "Signing in..." : "Login"}
           </button>
         </form>
 
-        <p className="mt-4 text-sm text-gray-600 text-center">
-          Don’t have an account?{" "}
-          <Link to="/register" className="text-blue-600 hover:underline">
-            Register
+        <p className="mt-8 text-center text-xs text-gray-500">
+          Don't have an account?{" "}
+          <Link to="/register" className="text-blue-400 hover:underline font-medium">
+            Create one for free
           </Link>
         </p>
       </div>

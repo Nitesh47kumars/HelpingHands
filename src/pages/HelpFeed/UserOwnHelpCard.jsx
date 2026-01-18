@@ -20,7 +20,7 @@ const UserOwnHelpCard = () => {
       await push(requestsRef, {
         ...formData,
         userId: user.uid,
-        userName: user.email.split('@')[0], // Use fullName if available in your user profile state
+        userName: user.email.split('@')[0],
         createdAt: serverTimestamp(),
       });
       setFormData({ title: "", category: "Other", location: "", description: "" });
@@ -33,13 +33,13 @@ const UserOwnHelpCard = () => {
   };
 
   return (
-    <form onSubmit={handlePost} className="bg-white dark:bg-zinc-900 border-2 border-dashed border-zinc-200 dark:border-zinc-800 rounded-2xl p-6 mb-8">
+    <form onSubmit={handlePost} className="bg-zinc-900 border-2 border-dashed border-zinc-800 rounded-2xl p-6 mb-8">
       <div className="flex items-center gap-4 mb-4">
-        <div className="w-12 h-12 rounded-full bg-blue-100 dark:bg-blue-900/20 flex items-center justify-center text-blue-600">
+        <div className="w-12 h-12 rounded-full bg-blue-900/20 flex items-center justify-center text-blue-600">
           <MdOutlineAddCircle size={28} />
         </div>
         <div>
-          <h2 className="text-lg font-bold dark:text-white">Need a Hand?</h2>
+          <h2 className="text-lg font-bold text-white">Need a Hand?</h2>
           <p className="text-sm text-zinc-500">Post a request and your community will reach out.</p>
         </div>
       </div>
@@ -49,19 +49,19 @@ const UserOwnHelpCard = () => {
           value={formData.title}
           onChange={(e) => setFormData({...formData, title: e.target.value})}
           placeholder="What do you need help with?"
-          className="w-full bg-zinc-50 dark:bg-zinc-800 border-none rounded-xl px-4 py-3 focus:ring-2 ring-blue-500 dark:text-white outline-none"
+          className="w-full bg-zinc-800 border-none rounded-xl px-4 py-3 focus:ring-2 ring-blue-500 text-white outline-none"
         />
         <textarea 
           value={formData.description}
           onChange={(e) => setFormData({...formData, description: e.target.value})}
           placeholder="Describe your situation..."
-          className="w-full bg-zinc-50 dark:bg-zinc-800 border-none rounded-xl px-4 py-3 focus:ring-2 ring-blue-500 dark:text-white outline-none min-h-25"
+          className="w-full bg-zinc-800 border-none rounded-xl px-4 py-3 focus:ring-2 ring-blue-500 text-white outline-none min-h-25"
         />
         <div className="flex gap-2">
           <select 
             value={formData.category}
             onChange={(e) => setFormData({...formData, category: e.target.value})}
-            className="flex-1 bg-zinc-50 dark:bg-zinc-800 border-none rounded-xl px-4 py-3 text-zinc-500 outline-none"
+            className="flex-1 bg-zinc-800 border-none rounded-xl px-4 py-3 text-zinc-500 outline-none"
           >
             <option value="Technical">Technical</option>
             <option value="Education">Education</option>
@@ -72,7 +72,7 @@ const UserOwnHelpCard = () => {
             value={formData.location}
             onChange={(e) => setFormData({...formData, location: e.target.value})}
             placeholder="Location"
-            className="flex-1 bg-zinc-50 dark:bg-zinc-800 border-none rounded-xl px-4 py-3 outline-none dark:text-white"
+            className="flex-1 bg-zinc-800 border-none rounded-xl px-4 py-3 outline-none text-white"
           />
         </div>
         <button 
