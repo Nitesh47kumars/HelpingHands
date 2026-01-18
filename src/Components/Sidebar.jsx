@@ -1,12 +1,13 @@
 import React from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-// Importing specific icons from Material Design and Font Awesome sets
 import { MdDashboard, MdChat, MdSettings } from 'react-icons/md';
 import { FaUserFriends, FaYoutube, FaSignOutAlt } from 'react-icons/fa';
+import { useFirebase } from '../context/firebaseContext';
 
 const Sidebar = () => {
   const navigate = useNavigate();
   const location = useLocation();
+  const {logout}  = useFirebase()
 
   const menuItems = [
     { id: 'dashboard', label: 'Dashboard', path: '/dashboard', icon: <MdDashboard size={24} /> },
@@ -19,21 +20,16 @@ const Sidebar = () => {
     navigate(path);
   };
 
-  return (
-    <aside className="flex flex-col w-64 h-full bg-zinc-950 border-r border-zinc-800 p-4">
-      {/* Brand Logo */}
-      <div 
-        className="flex items-center gap-2 px-3 mb-10 text-red-600 cursor-pointer"
-        onClick={() => navigate('/')}
-      >
-        <FaYoutube size={30} />
-        <span className="text-xl font-bold tracking-tighter text-white">MyTube</span>
-      </div>
+  const handleLogout = async () => {
+    await logout();
+    navigate("/login");
+  };
 
-      {/* Navigation */}
+  return (
+    <aside className="flex flex-col w-64 h-full bg-zinc-950 border-r border-zinc-800 p-4 mt-2">
+
       <nav className="flex-1 space-y-2">
         {menuItems.map((item) => {
-          // Check if the current URL matches the item's path
           const isActive = location.pathname === item.path;
 
           return (
@@ -56,9 +52,10 @@ const Sidebar = () => {
         })}
       </nav>
 
-      {/* Bottom Actions */}
       <div className="pt-4 border-t border-zinc-800">
-        <button className="flex items-center gap-4 w-full px-3 py-3 text-zinc-500 hover:text-red-400 transition-colors">
+        <button
+        onClick={handleLogout}
+         className="flex items-center gap-4 w-full px-3 py-3 text-zinc-500 hover:text-red-400 transition-colors">
           <FaSignOutAlt size={20} />
           <span className="font-medium">Logout</span>
         </button>

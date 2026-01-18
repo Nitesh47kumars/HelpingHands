@@ -20,7 +20,7 @@ const HelpFeed = () => {
   }, []);
 
   return (
-    <div className="mx-auto p-4">
+    <div className="mx-auto">
       <UserOwnHelpCard />
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {requests.map(req => <HelpCard key={req.id} request={req} />)}

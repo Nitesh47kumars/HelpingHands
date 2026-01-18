@@ -10,12 +10,10 @@ const Settings = () => {
   const { logout, user } = useFirebase();
   const navigate = useNavigate();
   
-  // State for user data and editing toggle
   const [profile, setProfile] = useState({ fullName: "", phone: "", address: "", dob: "" });
   const [isEditing, setIsEditing] = useState(false);
   const [loading, setLoading] = useState(false);
 
-  // 1. Fetch current user info from Firebase
   useEffect(() => {
     if (!user) return;
     const userRef = ref(db, `users/${user.uid}`);
@@ -26,7 +24,6 @@ const Settings = () => {
     });
   }, [user]);
 
-  // 2. Handle Update Logic
   const handleUpdateProfile = async () => {
     setLoading(true);
     try {
@@ -57,7 +54,6 @@ const Settings = () => {
 
       <div className="grid grid-cols-1 gap-6">
         
-        {/* Profile Information Section */}
         <section className="bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-2xl overflow-hidden shadow-sm">
           <div className="p-6 border-b border-zinc-100 dark:border-zinc-800 flex justify-between items-center">
             <div className="flex items-center gap-3">
@@ -108,7 +104,6 @@ const Settings = () => {
           </div>
         </section>
 
-        {/* Danger Zone */}
         <section className="bg-red-50 dark:bg-red-900/10 border border-red-100 dark:border-red-900/30 rounded-2xl p-6 flex flex-col md:flex-row items-center justify-between gap-4">
           <div>
             <h3 className="text-red-800 dark:text-red-400 font-bold">Logout Session</h3>
@@ -126,7 +121,6 @@ const Settings = () => {
   );
 };
 
-// Helper Component for Form Fields
 const InputGroup = ({ label, value, isEditing, onChange, type = "text" }) => (
   <div className="space-y-1">
     <label className="text-xs font-bold text-zinc-500 uppercase tracking-wider">{label}</label>
