@@ -4,6 +4,7 @@ import { useFirebase } from "../../context/firebaseContext";
 import Header from "./Header";
 import RequestManager from "./RequestManager";
 import Loading from "../../Components/Loading";
+import { UserOwnHelpCard } from "../HelpFeed/UserOwnHelpCard";
 
 const db = getDatabase();
 
@@ -60,6 +61,7 @@ const Dashboard = () => {
   return (
     <div className="space-y-6 pb-10 bg-transparent min-h-screen">
       <Header profile={profile} requestCount={myRequests.length} />
+      <UserOwnHelpCard/>
       <RequestManager
         requests={myRequests}
         onStatusUpdate={handleStatusUpdate}

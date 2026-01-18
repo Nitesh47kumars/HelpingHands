@@ -14,7 +14,7 @@ const HelpFeed = () => {
       const data = snapshot.val();
       if (data) {
         const list = Object.keys(data).map(key => ({ id: key, ...data[key] }));
-        setRequests(list.reverse()); // Show newest first
+        setRequests(list.reverse());
       }
     });
   }, []);
