@@ -35,7 +35,7 @@ const Register = () => {
   const labelStyle = "block text-xs font-medium text-gray-400 mb-1 ml-1";
 
   return (
-    <div className="min-h-[85vh] flex items-center justify-center bg-[#0a0a0c] px-4 py-8 scheme-dark">
+    <div className="min-h-[80vh] flex items-center justify-center bg-[#0a0a0c] py-4 scheme-dark">
       <div className="max-w-xl w-full bg-white/3 backdrop-blur-md p-5 sm:p-6 rounded-2xl border border-white/10 shadow-xl">
         <div className="text-center mb-6 sm:mb-8 mt-1">
           <h2 className="text-xl sm:text-2xl font-bold text-white">Join HelpingHands</h2>

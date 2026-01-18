@@ -104,7 +104,7 @@ const Dashboard = () => {
         const maxPrice = parseInt(request.maxPrice) || 0;
         const avgPrice = (minPrice + maxPrice) / 2;
 
-        const karmaPoints = Math.max(Math.floor(avgPrice / 10), 5);
+        const karmaPoints = Math.max(Math.floor(avgPrice / 10) * 5, 5)
 
         const success = await awardKarma(acceptedHelper.helperId, karmaPoints);
 
