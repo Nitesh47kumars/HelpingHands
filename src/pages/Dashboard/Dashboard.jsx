@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { getDatabase, ref, onValue, remove, update } from "firebase/database";
+import { getDatabase, ref, onValue, remove, update, get } from "firebase/database";
 import { useFirebase } from "../../context/firebaseContext";
 import Header from "./Header";
 import RequestManager from "./RequestManager";
@@ -50,19 +50,41 @@ const Dashboard = () => {
     }
   };
 
-  const handleAcceptHelper = async (id) => {
-    await update(ref(db, `helpRequests/${id}`), {
+  const handleAcceptHelper = async (requestId, helperId) => {
+    const requestRef = ref(db, `helpRequests/${requestId}`);
+    const snapshot = await get(requestRef);
+    const data = snapshot.val();
+
+    if (!data || !data.helpers) return;
+
+    const updatedHelpers = data.helpers.map((helper) => ({
+      ...helper,
+      status: helper.helperId === helperId ? "accepted" : "declined",
+    }));
+
+    await update(requestRef, {
+      helpers: updatedHelpers,
       status: "in-progress",
       acceptedAt: Date.now(),
     });
   };
 
-  const handleDeclineHelper = async (id) => {
+  const handleDeclineHelper = async (requestId, helperId) => {
     if (window.confirm("Are you sure you want to decline this helper?")) {
-      await update(ref(db, `helpRequests/${id}`), {
-        helperId: null,
-        helperName: null,
-        status: "pending",
+      const requestRef = ref(db, `helpRequests/${requestId}`);
+      const snapshot = await get(requestRef);
+      const data = snapshot.val();
+
+      if (!data || !data.helpers) return;
+
+      const updatedHelpers = data.helpers.map((helper) =>
+        helper.helperId === helperId
+          ? { ...helper, status: "declined" }
+          : helper
+      );
+
+      await update(requestRef, {
+        helpers: updatedHelpers,
       });
     }
   };
@@ -72,21 +94,27 @@ const Dashboard = () => {
 
     await update(ref(db, `helpRequests/${id}`), { status: newStatus });
 
-    if (newStatus === "completed" && request.helperId) {
-      const minPrice = parseInt(request.minPrice) || 0;
-      const maxPrice = parseInt(request.maxPrice) || 0;
-      const avgPrice = (minPrice + maxPrice) / 2;
+    if (newStatus === "completed" && request.helpers) {
+      const acceptedHelper = request.helpers.find(
+        (h) => h.status === "accepted"
+      );
 
-      const karmaPoints = Math.max(Math.floor(avgPrice / 10), 5);
+      if (acceptedHelper) {
+        const minPrice = parseInt(request.minPrice) || 0;
+        const maxPrice = parseInt(request.maxPrice) || 0;
+        const avgPrice = (minPrice + maxPrice) / 2;
 
-      const success = await awardKarma(request.helperId, karmaPoints);
+        const karmaPoints = Math.max(Math.floor(avgPrice / 10), 5);
 
-      if (success) {
-        alert(
-          `✅ Request completed! Awarded ${karmaPoints} karma points to ${
-            request.helperName || "helper"
-          }!`
-        );
+        const success = await awardKarma(acceptedHelper.helperId, karmaPoints);
+
+        if (success) {
+          alert(
+            `✅ Request completed! Awarded ${karmaPoints} karma points to ${
+              acceptedHelper.helperName || "helper"
+            }!`
+          );
+        }
       }
     }
   };

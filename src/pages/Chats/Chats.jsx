@@ -38,6 +38,7 @@ const Chats = () => {
         users={users}
         selectedUser={selectedUser}
         onSelect={setSelectedUser}
+        currentUserId={user?.uid}
       />
       <ChatWindow selectedUser={selectedUser} currentUser={user} />
     </div>

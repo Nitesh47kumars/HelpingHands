@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import { getDatabase, ref, update } from "firebase/database";
+import { getDatabase, ref, update, push, serverTimestamp, get } from "firebase/database";
 import { useFirebase } from "../../context/firebaseContext";
 import {
   MdLocationOn,
@@ -33,16 +33,64 @@ const HelpCard = ({ request }) => {
     return "Just now";
   };
 
+  const getRoomId = (uid1, uid2) =>
+    uid1 < uid2 ? `${uid1}_${uid2}` : `${uid2}_${uid1}`;
+
   const handleOfferHelp = async () => {
     if (!user) return;
 
     try {
-      await update(ref(db, `helpRequests/${request.id}`), {
+      const requestRef = ref(db, `helpRequests/${request.id}`);
+      const snapshot = await get(requestRef);
+      const currentData = snapshot.val();
+
+      const helpers = currentData?.helpers || [];
+      
+      const alreadyOffered = helpers.some(h => h.helperId === user.uid);
+      
+      if (alreadyOffered) {
+        navigate("/chats", {
+          state: {
+            recipient: { uid: request.userId, fullName: request.userName },
+          },
+        });
+        return;
+      }
+
+      const newHelper = {
         helperId: user.uid,
         helperName: user.email?.split("@")[0] || "Helper",
-        status: "pending",
+        offeredAt: Date.now(),
+        status: "pending"
+      };
+
+      helpers.push(newHelper);
+
+      await update(requestRef, {
+        helpers: helpers,
+        lastHelperAt: Date.now()
       });
 
+      const roomId = getRoomId(user.uid, request.userId);
+      const chatRef = ref(db, `chats/${roomId}`);
+      
+      const predefinedMessage = `Hi! I saw your help request "${request.title}" and I'm interested in helping you out. Let me know if you'd like to discuss the details! 😊`;
+      
+      await push(chatRef, {
+        text: predefinedMessage,
+        senderId: user.uid,
+        timestamp: serverTimestamp(),
+        cardData: {
+          title: request.title,
+          location: request.location,
+          category: request.category,
+          requirements: request.requirements || [],
+          minPrice: request.minPrice,
+          maxPrice: request.maxPrice,
+        },
+      });
+
+      // Navigate to chat
       navigate("/chats", {
         state: {
           recipient: { uid: request.userId, fullName: request.userName },
@@ -53,6 +101,10 @@ const HelpCard = ({ request }) => {
       alert("Failed to offer help. Please try again.");
     }
   };
+
+  const userHasOffered = request.helpers?.some(h => h.helperId === user?.uid);
+  const acceptedHelper = request.helpers?.find(h => h.status === "accepted");
+  const isAccepted = acceptedHelper?.helperId === user?.uid;
 
   return (
     <div className="bg-zinc-900/40 border border-white/5 rounded-2xl p-6 hover:border-blue-500/30 transition-all group flex flex-col h-full shadow-xl relative overflow-hidden">
@@ -72,6 +124,14 @@ const HelpCard = ({ request }) => {
           <MdLocationOn className="text-blue-500" />
           {request.location}
         </div>
+        {request.helpers && request.helpers.length > 0 && (
+          <>
+            <span>•</span>
+            <span className="text-blue-400 font-medium">
+              {request.helpers.length} {request.helpers.length === 1 ? "offer" : "offers"}
+            </span>
+          </>
+        )}
       </div>
 
       <div className="p-4 rounded-xl border border-white/5 grow mb-2 text-sm text-zinc-300 leading-relaxed line-clamp-4">
@@ -113,12 +173,16 @@ const HelpCard = ({ request }) => {
 
         <button
           onClick={handleOfferHelp}
-          disabled={request.helperId && request.helperId !== user?.uid}
+          disabled={acceptedHelper && !isAccepted}
           className="flex items-center gap-2 px-6 py-2.5 bg-blue-600 hover:bg-blue-500 text-white text-xs font-bold rounded-xl transition-all active:scale-95 shadow-lg shadow-blue-900/40 disabled:opacity-50 disabled:cursor-not-allowed"
         >
           <MdMessage size={14} />
-          {request.helperId && request.helperId !== user?.uid
-            ? "Already Helping"
+          {acceptedHelper && !isAccepted
+            ? "Helper Selected"
+            : isAccepted
+            ? "You're Helping!"
+            : userHasOffered
+            ? "Message Sent"
             : "Offer Help"}
         </button>
       </div>
