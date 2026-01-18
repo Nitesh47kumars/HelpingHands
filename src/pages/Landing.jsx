@@ -5,11 +5,7 @@ const Landing = () => {
   const { user } = useFirebase();
 
   return (
-    <section className="relative min-h-screen flex flex-col items-center justify-center overflow-hidden bg-[#0a0a0c] text-white">
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-full -z-10">
-        <div className="absolute top-[-10%] left-[-10%] w-[50%] h-[50%] rounded-full bg-blue-900/20 blur-[140px]" />
-        <div className="absolute bottom-[-10%] right-[-10%] w-[50%] h-[50%] rounded-full bg-indigo-900/20 blur-[140px]" />
-      </div>
+    <section className="relative min-h-[85vh] flex flex-col items-center justify-center overflow-hidden bg-[#0a0a0c] text-white">
 
       <div className="max-w-4xl text-center px-6 z-10">
         <span className="inline-flex items-center px-4 py-1.5 mb-8 text-sm font-medium tracking-wide text-blue-400 bg-blue-500/10 border border-blue-500/20 rounded-full animate-pulse">

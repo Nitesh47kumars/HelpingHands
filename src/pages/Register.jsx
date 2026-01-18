@@ -30,12 +30,13 @@ const Register = () => {
     }
   };
 
+  // Added autofill styling to ensure background remains dark
   const inputStyle =
-    "w-full bg-white/5 border border-white/10 rounded-lg px-3 py-3 text-sm text-white placeholder:text-gray-500 focus:outline-none focus:ring-1 focus:ring-blue-500 transition-all";
+    "w-full bg-white/5 border border-white/10 rounded-lg px-3 py-3 text-sm text-white placeholder:text-gray-500 focus:outline-none focus:ring-1 focus:ring-blue-500 transition-all [color-scheme:dark] [&:-webkit-autofill]:[-webkit-box-shadow:0_0_0_50px_#121214_inset] [&:-webkit-autofill]:[text-fill-color:white]";
   const labelStyle = "block text-xs font-medium text-gray-400 mb-1 ml-1";
 
   return (
-    <div className="min-h-[90vh] flex items-center justify-center bg-[#0a0a0c] px-4">
+    <div className="min-h-[90vh] flex items-center justify-center bg-[#0a0a0c] px-4 [color-scheme:dark]">
       <div className="max-w-xl w-full bg-white/3 backdrop-blur-md p-6 rounded-2xl border border-white/10 shadow-xl">
         <div className="text-center mb-8 mt-1">
           <h2 className="text-2xl font-bold text-white">Join HelpingHands</h2>
@@ -83,7 +84,7 @@ const Register = () => {
                 type="date"
                 name="dob"
                 required
-                className={`${inputStyle} scheme-dark`}
+                className={inputStyle}
               />
             </div>
             <div>

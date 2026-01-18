@@ -24,11 +24,11 @@ const Login = () => {
     }
   };
 
-  const inputStyle = "w-full bg-white/5 border border-white/10 rounded-lg px-3 py-3 text-sm text-white placeholder:text-gray-500 focus:outline-none focus:ring-1 focus:ring-blue-500 transition-all";
+  const inputStyle = "w-full bg-white/5 border border-white/10 rounded-lg px-3 py-3 text-sm text-white placeholder:text-gray-500 focus:outline-none focus:ring-1 focus:ring-blue-500 transition-all [color-scheme:dark] [&:-webkit-autofill]:[-webkit-box-shadow:0_0_0_50px_#121214_inset] [&:-webkit-autofill]:[text-fill-color:white]";
   const labelStyle = "block text-xs font-medium text-gray-400 mb-1 ml-1";
 
   return (
-    <div className="min-h-[90vh] flex items-center justify-center bg-[#0a0a0c] px-4">
+    <div className="min-h-[90vh] flex items-center justify-center bg-[#0a0a0c] px-4 scheme-dark">
       <div className="max-w-md w-full bg-white/3 backdrop-blur-md p-8 rounded-2xl border border-white/10 shadow-xl">
         <div className="text-center mb-8">
           <h2 className="text-2xl font-bold text-white tracking-tight">Welcome Back</h2>

@@ -97,7 +97,7 @@ const UserOwnHelpCard = () => {
         </div>
       </div>
 
-      <div className="space-y-4">
+      <div className="space-y-3">
         <input
           required
           value={formData.title}
@@ -127,7 +127,7 @@ const UserOwnHelpCard = () => {
             className={inputClasses}
           />
 
-          <div className="flex gap-2">
+          <div className="flex gap-3">
             <input
               type="text"
               value={currentRequirement}
