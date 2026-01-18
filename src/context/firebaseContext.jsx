@@ -11,6 +11,9 @@ import {
   getDatabase,
   ref,
   set,
+  get,
+  update,
+  increment,
   serverTimestamp as rtdbServerTimestamp,
 } from "firebase/database";
 
@@ -59,6 +62,7 @@ export const FirebaseProvider = ({ children }) => {
       dob,
       phone,
       role: "user",
+      karma: 0,
       createdAt: Date.now(),
     });
 
@@ -70,6 +74,33 @@ export const FirebaseProvider = ({ children }) => {
 
   const logout = () => signOut(auth);
 
+  const awardKarma = async (helperId, points = 10) => {
+    try {
+      const userRef = ref(database, `users/${helperId}`);
+      await update(userRef, {
+        karma: increment(points),
+      });
+      return true;
+    } catch (error) {
+      console.error("Error awarding karma:", error);
+      return false;
+    }
+  };
+
+  const getUserKarma = async (userId) => {
+    try {
+      const userRef = ref(database, `users/${userId}`);
+      const snapshot = await get(userRef);
+      if (snapshot.exists()) {
+        return snapshot.val().karma || 0;
+      }
+      return 0;
+    } catch (error) {
+      console.error("Error fetching karma:", error);
+      return 0;
+    }
+  };
+
   return (
     <FirebaseContext.Provider
       value={{
@@ -78,6 +109,8 @@ export const FirebaseProvider = ({ children }) => {
         signUp,
         signIn,
         logout,
+        awardKarma,
+        getUserKarma,
       }}
     >
       {children}

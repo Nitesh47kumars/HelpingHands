@@ -9,7 +9,7 @@ import { UserOwnHelpCard } from "../HelpFeed/UserOwnHelpCard";
 const db = getDatabase();
 
 const Dashboard = () => {
-  const { user, loading: authLoading } = useFirebase();
+  const { user, loading: authLoading, awardKarma } = useFirebase();
   const [profile, setProfile] = useState(null);
   const [myRequests, setMyRequests] = useState([]);
   const [dataLoading, setDataLoading] = useState(true);
@@ -51,17 +51,35 @@ const Dashboard = () => {
   };
 
   const handleStatusUpdate = async (id, newStatus) => {
+    const request = myRequests.find((req) => req.id === id);
+
     await update(ref(db, `helpRequests/${id}`), { status: newStatus });
+
+    if (newStatus === "completed" && request.helperId) {
+      const minPrice = parseInt(request.minPrice) || 0;
+      const maxPrice = parseInt(request.maxPrice) || 0;
+      const avgPrice = (minPrice + maxPrice) / 2;
+      
+      const karmaPoints = Math.max(Math.floor(avgPrice / 10), 5);
+      
+      const success = await awardKarma(request.helperId, karmaPoints);
+      
+      if (success) {
+        alert(
+          `✅ Request completed! Awarded ${karmaPoints} karma points to ${request.helperName || "helper"}!`
+        );
+      }
+    }
   };
 
   if (authLoading || dataLoading) {
-    return <Loading/>
+    return <Loading />;
   }
 
   return (
     <div className="space-y-6 pb-10 bg-transparent min-h-screen">
       <Header profile={profile} requestCount={myRequests.length} />
-      <UserOwnHelpCard/>
+      <UserOwnHelpCard />
       <RequestManager
         requests={myRequests}
         onStatusUpdate={handleStatusUpdate}

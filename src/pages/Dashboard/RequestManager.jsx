@@ -4,6 +4,7 @@ import {
   MdCheckCircleOutline,
   MdPendingActions,
   MdLocationOn,
+  MdPerson,
 } from "react-icons/md";
 
 const StatusBadge = ({ status }) => {
@@ -13,17 +14,20 @@ const StatusBadge = ({ status }) => {
   };
   return (
     <span
-      className={`text-[10px] font-bold px-2 py-0.5 rounded-full uppercase ${styles[status]}`}
+      className={`text-[10px] font-bold px-2 py-0.5 rounded-full uppercase ${
+        styles[status] || styles.pending
+      }`}
     >
-      {status}
+      {status || "pending"}
     </span>
   );
 };
 
-const ActionButton = ({ icon, label, onClick, color }) => (
+const ActionButton = ({ icon, label, onClick, color, disabled }) => (
   <button
     onClick={onClick}
-    className={`flex items-center gap-1 px-3 py-1.5 text-xs font-semibold text-zinc-400 transition-colors rounded-lg hover:bg-zinc-800 ${color}`}
+    disabled={disabled}
+    className={`flex items-center gap-1 px-3 py-1.5 text-xs font-semibold text-zinc-400 transition-colors rounded-lg hover:bg-zinc-800 ${color} disabled:opacity-50 disabled:cursor-not-allowed`}
   >
     {icon} <span>{label}</span>
   </button>
@@ -45,8 +49,8 @@ const RequestManager = ({ requests = [], onStatusUpdate, onDelete }) => {
               className="p-6 hover:bg-zinc-800/50 transition-colors"
             >
               <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
-                <div className="space-y-1">
-                  <div className="flex items-center gap-2">
+                <div className="space-y-2 flex-1">
+                  <div className="flex items-center gap-2 flex-wrap">
                     <h4 className="font-bold text-zinc-100">{req.title}</h4>
                     <StatusBadge status={req.status || "pending"} />
                   </div>
@@ -54,6 +58,11 @@ const RequestManager = ({ requests = [], onStatusUpdate, onDelete }) => {
                     <MdLocationOn size={14} /> {req.location || "No location"} •{" "}
                     {req.category}
                   </p>
+                  {req.helperName && (
+                    <p className="text-sm text-emerald-400 flex items-center gap-1">
+                      <MdPerson size={14} /> Helper: {req.helperName}
+                    </p>
+                  )}
                 </div>
                 <div className="flex items-center gap-2">
                   <ActionButton
@@ -61,12 +70,22 @@ const RequestManager = ({ requests = [], onStatusUpdate, onDelete }) => {
                     label="Pending"
                     onClick={() => onStatusUpdate(req.id, "pending")}
                     color="hover:text-amber-500"
+                    disabled={req.status === "pending"}
                   />
                   <ActionButton
                     icon={<MdCheckCircleOutline size={18} />}
                     label="Complete"
-                    onClick={() => onStatusUpdate(req.id, "completed")}
+                    onClick={() => {
+                      if (req.helperId) {
+                        onStatusUpdate(req.id, "completed");
+                      } else {
+                        alert(
+                          "No helper assigned yet. Wait for someone to offer help first."
+                        );
+                      }
+                    }}
                     color="hover:text-green-500"
+                    disabled={req.status === "completed" || !req.helperId}
                   />
                   <div className="w-px h-6 bg-zinc-700 mx-1" />
                   <ActionButton

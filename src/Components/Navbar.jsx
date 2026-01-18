@@ -12,9 +12,8 @@ const Navbar = () => {
 
   return (
     <nav className="w-full border-b bg-white border-gray-200 dark:bg-zinc-950 dark:border-zinc-800 sticky top-0 z-50">
-      <div className="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
-        {/* Logo */}
-        <Link to="/" className="text-xl font-bold tracking-tight text-gray-900 dark:text-white">
+      <div className= "mx-auto px-6 py-3 flex items-center justify-between">
+        <Link to="/" className="text-3xl uppercase font-bold tracking-tight text-gray-900 dark:text-white">
           Helping<span className="text-blue-600">Hands</span>
         </Link>
 
