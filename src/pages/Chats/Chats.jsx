@@ -33,7 +33,7 @@ const Chats = () => {
   }, [location.state]);
 
   return (
-    <div className="flex h-[85vh] max-w-6xl mx-auto bg-white dark:bg-zinc-900 rounded-2xl shadow-xl border border-zinc-200 dark:border-zinc-800 overflow-hidden mt-4">
+    <div className="flex h-[90vh] mx-auto bg-zinc-900 rounded-2xl shadow-xl border border-zinc-800 overflow-hidden mt-4">
       <ChatSidebar
         users={users}
         selectedUser={selectedUser}

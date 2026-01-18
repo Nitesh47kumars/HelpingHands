@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { getDatabase, ref, push, serverTimestamp } from "firebase/database";
 import { useFirebase } from "../../context/firebaseContext";
-import { MdOutlineAddCircle } from "react-icons/md";
+import { MdOutlineAddCircle, MdClose } from "react-icons/md";
 
 const db = getDatabase();
 
@@ -14,8 +14,27 @@ const UserOwnHelpCard = () => {
     description: "",
     minPrice: "",
     maxPrice: "",
+    requirements: [],
   });
+  const [currentRequirement, setCurrentRequirement] = useState("");
   const [isPosting, setIsPosting] = useState(false);
+
+  const addRequirement = () => {
+    if (currentRequirement.trim()) {
+      setFormData({
+        ...formData,
+        requirements: [...formData.requirements, currentRequirement.trim()],
+      });
+      setCurrentRequirement("");
+    }
+  };
+
+  const removeRequirement = (index) => {
+    setFormData({
+      ...formData,
+      requirements: formData.requirements.filter((_, i) => i !== index),
+    });
+  };
 
   const handlePost = async (e) => {
     e.preventDefault();
@@ -47,6 +66,7 @@ const UserOwnHelpCard = () => {
         description: "",
         minPrice: "",
         maxPrice: "",
+        requirements: [],
       });
     } catch (err) {
       console.error("Error posting:", err);
@@ -97,20 +117,6 @@ const UserOwnHelpCard = () => {
         />
 
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-          <select
-            required
-            value={formData.category}
-            onChange={(e) =>
-              setFormData({ ...formData, category: e.target.value })
-            }
-            className={`${inputClasses} cursor-pointer text-zinc-400`}
-          >
-            <option value="Technical">Technical</option>
-            <option value="Education">Education</option>
-            <option value="Physical">Physical</option>
-            <option value="Other">Other</option>
-          </select>
-
           <input
             required
             value={formData.location}
@@ -120,7 +126,47 @@ const UserOwnHelpCard = () => {
             placeholder="Location"
             className={inputClasses}
           />
+
+          <div className="flex gap-2">
+            <input
+              type="text"
+              value={currentRequirement}
+              onChange={(e) => setCurrentRequirement(e.target.value)}
+              onKeyPress={(e) =>
+                e.key === "Enter" && (e.preventDefault(), addRequirement())
+              }
+              placeholder="Add requirement..."
+              className={`${inputClasses} flex-1`}
+            />
+            <button
+              type="button"
+              onClick={addRequirement}
+              className="px-4 py-3 bg-blue-600 hover:bg-blue-500 text-white font-bold rounded-xl transition-all active:scale-95"
+            >
+              Add
+            </button>
+          </div>
         </div>
+
+        {formData.requirements.length > 0 && (
+          <div className="flex flex-wrap gap-2">
+            {formData.requirements.map((req, index) => (
+              <div
+                key={index}
+                className="flex items-center gap-2 bg-zinc-800/50 border border-white/10 px-3 py-2 rounded-lg text-sm text-zinc-300"
+              >
+                <span>{req}</span>
+                <button
+                  type="button"
+                  onClick={() => removeRequirement(index)}
+                  className="text-zinc-500 hover:text-red-400 transition-colors"
+                >
+                  <MdClose size={16} />
+                </button>
+              </div>
+            ))}
+          </div>
+        )}
 
         <div className="space-y-2">
           <label className="text-[10px] font-bold text-zinc-500 uppercase tracking-widest ml-1">
